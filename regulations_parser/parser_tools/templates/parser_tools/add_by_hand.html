@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Add by Hand{% endblock title %}
+{% block content %}
+
+<script type="text/javascript">
+
+// populate frequently used fields in add_by_hand view
+$(document).ready(function() {
+    parent_title = getCookie('parent_title');
+    parent_url = getCookie('parent_url');
+    $('#id_parent_title').val(parent_title);
+    $('#id_parent_url').val(parent_url);
+    $('#submit-button').click(function() {
+        parent_title = $('#id_parent_title').val();
+        parent_url = $('#id_parent_url').val();
+        setCookie('parent_title', parent_title, 30);
+        setCookie('parent_url', parent_url, 30);
+    });
+});
+
+
+</script>
+
+{% if message %}
+
+<p><strong>{{ message }}</strong></p>
+
+{% else %}
+
+<p>Use this form to add HTML files that the scraper can't handle. Be sure to save the HTML file in DATA_PATH before running this script.</p>
+
+<form action="{% url parser_tools.views.add_by_hand %}" method="post">
+
+{% csrf_token %}
+<table border="1" cellpadding="10" cellspacing="0">
+{{ form.as_table }}
+</table>
+<p><input type="submit" value="Submit" id="submit-button" /></p>
+</form>
+
+{% endif %}
+
+{% endblock content %}

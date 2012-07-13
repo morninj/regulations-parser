@@ -1,0 +1,4 @@
+Django==1.4
+South==0.7.5
+pyPdf==1.13
+wsgiref==0.1.2

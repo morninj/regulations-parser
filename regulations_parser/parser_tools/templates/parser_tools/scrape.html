@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Scrape{% endblock title %}
+{% block content %}
+
+{% if output %}
+<p>Success! The scrape log is below.</p>
+<div style="padding: 15px; background-color: #efefef;">
+{{ output|safe }}
+</div>
+{% else %}
+
+<p>This tool will scrape state regulations from a URL you specify. Here's how it works:</p>
+
+<ul>
+    <li>You specify the URL (e.g, <a href="http://www.lawlib.state.ma.us/source/mass/cmr/106cmr.html">http://www.lawlib.state.ma.us/source/mass/cmr/106cmr.html</a>)</li>
+    <li>You specify the title of the chunk of legislation (e.g., "106 CMR")</li>
+    <li>The scraper will recursively download all PDFs on .gov and .us domains that are linked to from that page</li>
+    <li>The scraper will create <code>Regulation</code> objects for each PDF and <code>Page</code> for each page</li>
+    <li>For each <code>Page</code>, the scraper will a list of possible incorporations for you to review</li>
+</ul>
+
+<p>This scraper currently supports PDF files. It has only been tested on Massachusetts state regulations.</p>
+
+<p>Files are currently configured to be saved in <code>{{ DATA_PATH }}</code>. You can change this in <code>settings.py</code>.</p>
+
+<form action="{% url parser_tools.views.scrape %}" method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    {% for field in form %}
+        <div class="field-wrapper">
+            {{ field.errors }}
+            {{ field.label_tag }}: {{ field }}
+        </div>
+    {% endfor %}
+    <div>
+        <input type="submit" />
+    </div>
+</form>
+
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock title %}
+{% block content %}
+
+<p>
+    {{ matched_incorporations.count }} matches so far.
+</p>
+
+{% for incorporation in matched_incorporations %}
+    <hr />
+    <p><a href="{{ incorporation.page.regulation.url }}">{{ incorporation.page.regulation.parent_title }} {{ incorporation.page.regulation.title }}</a> p. {{ incorporation.page.page_number }} [<a href="{% url parser_tools.views.edit_incorporation pk=incorporation.pk %}">Edit</a>]</p>
+    <p>{{ incorporation.context }}</p>
+{% endfor %}
+
+{% endblock content %}

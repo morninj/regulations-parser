@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Add/Edit Standards Organization{% endblock title %}
+{% block content %}
+
+<p><strong>{{ message }}</strong></p>
+
+{% if pk %}
+<form action="{% url parser_tools.views.edit_standards_organization pk %}" method="post">
+{% else %}
+<form action="{% url parser_tools.views.edit_standards_organization %}" method="post">
+{% endif %}
+
+{% csrf_token %}
+<table border="1" cellpadding="10" cellspacing="0">
+{{ form.as_table }}
+</table>
+<p><input type="submit" value="Submit" /></p>
+</form>
+
+<hr />
+
+<h3>Current standards organizations</h3>
+
+<ul>
+{% for org in standards_organizations_list %}
+    <li>{{ org.name }} ({{ org.acronym }}) [<a href="{% url parser_tools.views.edit_standards_organization org.pk %}">edit</a>]</li>
+{% endfor %}
+</ul>
+
+{% endblock content %}

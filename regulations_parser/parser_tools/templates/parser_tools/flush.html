@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Flush{% endblock title %}
+{% block content %}
+
+{% if do_flush %}
+    <p>The database has been flushed.</p>
+{% else %}
+    <p> <strong>This will permanently delete data from the database. It cannot be undone.</strong></p>
+    <p>Flushing will remove all <code>Regulation</code>, <code>Page</code>, and <code>Incorporation</code> objects.
+    It will not remove <code>StandardsOrganization</code> objects.</p>
+    <p>To flush <code>StandardsOrganization</code> objects, run <code>&gt;&gt;&gt; StandardsOrganization.objects.all().delete()</code>.</p>
+    <p>Are you sure?</p>
+    <form action="{% url parser_tools.views.flush %}" method="get">
+        <input type="hidden" name="do_flush" value="yes" />
+        <p><input type="submit" value="Yes" /></p>
+    </form>
+{% endif %}
+
+{% endblock content %}

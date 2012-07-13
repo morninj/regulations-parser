@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Regulations Parser</title>
+    <style type="text/css">
+    
+    ul.navigation {
+        list-style: none;
+        margin: 0;
+        overflow: auto;
+        padding: 0;
+        width: 100%;
+    }
+
+        ul.navigation li { display: inline; }
+
+        ul.navigation a {
+            display: block;
+            float: left;
+            padding: 5px 10px;
+            background-color: #efefef;
+            margin-right: 5px;
+        }
+    
+    div#edit-incorporation-form input,
+    div#edit-incorporation-form select {
+        width: 310px !important;
+    }
+
+    span.incorporation {
+        margin-right: 5px;
+        padding: 0 5px;
+    }
+
+    span.incorporation-unknown {
+        background-color: #fc0;
+    }
+
+    span.incorporation-true {
+        background-color: #0f0;
+    }
+
+    span.incorporation-false {
+        background-color: #f00;
+    }
+
+    </style>
+    <!--[if lt IE 9]>  document
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js">
+        </script>  
+    <![endif]--> 
+    <script type="text/javascript" src="{{ STATIC_URL }}scripts/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript">
+
+    function setCookie(c_name,value,exdays) {
+        var exdate=new Date();
+        exdate.setDate(exdate.getDate() + exdays);
+        var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+        document.cookie=c_name + "=" + c_value;
+    }
+
+    function getCookie(c_name) {
+        var i,x,y,ARRcookies=document.cookie.split(";");
+        for (i=0;i<ARRcookies.length;i++) {
+            x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+            y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+            x=x.replace(/^\s+|\s+$/g,"");
+            if (x==c_name) {
+                return unescape(y);
+            }
+        }
+    }
+
+    $(document).keypress(function() {
+        if (event.which == 110) { // process for 'n' but exclude form elements
+            if ($(event.target).is(':input')) {
+                return;
+            } else {
+                $('#id_is_incorporation').val('3');
+                $('#edit_incorporation_form').submit();
+            }
+        }
+    });
+
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Regulations Parser</h1>
+        <ul class="navigation">
+            <li><a href="{% url parser_tools.views.index %}">Home</a></li>
+            <li><a href="{% url parser_tools.views.scrape %}">Scrape</a></li>
+            <li><a href="{% url parser_tools.views.add_by_hand %}">Add by hand</a></li>
+            <li><a href="{% url parser_tools.views.edit_regulation %}">Edit regulations</a></li>
+            <li><a href="{% url parser_tools.views.review %}">Review</a></li>
+            <li><a href="{% url parser_tools.views.edit_incorporation %}">Next unreviewed incorporation</a></li>
+            <li><a href="{% url parser_tools.views.edit_standards_organization %}">Standards organizations</a></li>
+            <li><a href="{% url parser_tools.views.flush %}">Flush</a></li>
+        </ul>
+        <h2>{% block title %}{% endblock title %}</h2>
+        {% autoescape off %}
+        {% block content %}{% endblock content %}
+        {% endautoescape %}
+    </div><!--/#container-->
+</body>
+</html>
+
+

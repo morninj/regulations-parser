@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Edit Incorporation{% endblock title %}
+{% block content %}
+
+<script type="text/javascript">
+window.location = '#edit';
+$(document).ready(function() {
+    if ($('#id_context').val() == '') {
+        $('#id_context').val('empty');
+        $('#id_is_incorporation').val('3');
+        $('#edit_incorporation_form').submit();
+    }
+
+    {% if ignore %}
+    $('#id_is_incorporation').val('3');
+    $('#edit_incorporation_form').submit();
+    {% endif %}
+
+});
+
+</script>
+
+<div style="width: 250px; float: left;" id="edit">
+Parent title: {{ regulation.parent_title }} [<a href="{% url parser_tools.views.edit_regulation pk=regulation.pk %}">edit</a>]<br />
+Title: <a href="{{ regulation.url }}">{{ regulation.title }}</a><br />
+Page: {{ page.page_number }}<br />
+PK: {{ incorporation.pk }}
+</div>
+<div style="width: 400px; float: left; font-size: 0.8em">
+<strong>Previous</strong>: {{ previous_incorporation.context }}
+</div>
+<div style="width: 400px; float: left; font-size: 0.8em">
+<strong>Next</strong>: {{ next_incorporation.context }}
+</div>
+<div style="clear: both;"></div>
+<br />
+
+<div style="width: 465px; float: left" id="edit-incorporation-form">
+    <form action="{% url parser_tools.views.update_incorporation pk=incorporation.pk %}" method="post" id="edit_incorporation_form">
+    {% csrf_token %}
+    <table border="1" cellpadding="10" cellspacing="0">
+    {{ form.as_table }}
+    </table>
+    <p><input type="submit" value="Update" /></p>
+    </form>
+</div>
+<div style="width: 740px; float: right; font-size: 0.7em; margin-right: 20px;">
+    {{ rendered_contents|safe }}
+</div>
+<div style="clear: both;"></div>
+
+<br /><br />
+
+{% endblock content %}

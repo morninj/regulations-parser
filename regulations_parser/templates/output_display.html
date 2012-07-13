@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Incorporations by Reference</title>
+    <!--[if lt IE 9]>  
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>  
+    <![endif]--> 
+</head>
+<body>
+    <h1>Incorporations by Reference in the CMR</h1>
+    {% for i in incorporations %}
+        <h2>{{ forloop.counter }}</h2>
+        <p>
+            Section: <a href="{{ i.page.regulation.url }}">{{ i.page.regulation.parent_title }} {{ i.page.regulation.title }}</a>, p. {{ i.page.page_number }}<br />
+            Standards Organization: {{ i.standards_organization.acronym }} ({{ i.standards_organization.name }})<br />
+            Standard: {{ i.standard }}<br />
+            Edition: {{ i.edition }}<br />
+            Notes: {{ i.notes }}<br />
+            Context:
+        </p>
+        <blockquote>
+            <em>{{ i.context }}</em>
+        </blockquote>
+        <hr />
+    {% endfor %}
+</body>
+</html>
+
+
